@@ -1,0 +1,39 @@
+.banner {
+    margin: 10px;
+    padding: 0;
+}
+
+#banner-img {
+    width: 100%;
+    height: 350px ;
+    border-radius: 10px;
+}
+
+.foto-perfil {
+    margin-left: 80px;
+    margin-top: -100px;
+}
+
+.foto-perfil i {
+    font-size: 20px;
+    position: relative;
+    left: 250px;
+    bottom: 40px;
+}
+
+#foto-perfil {
+    display: block;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+}
+
+#mi-nombre {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.seccion-banner p, #mi-nombre {
+    padding-left: 50px;
+    margin-bottom: 8px;
+}

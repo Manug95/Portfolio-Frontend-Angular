@@ -1,0 +1,33 @@
+.barra-navegacion .row div {
+    height: 60px;
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.barra-navegacion i {
+    padding-left: 15px;
+}
+
+.barra-navegacion .row div a {
+    text-decoration: none;
+    color: white;
+    margin: 0 5px;
+}
+
+.barra-navegacion .row div button {
+    border-radius: 5px;
+    font-size: 20px;
+    margin: 0 0 0 20px;
+}
+
+.barra-navegacion img {
+    width: 100px;
+    height: 75px;
+}
+
+#btn-logout, #btn-register {
+    display: none;
+}
