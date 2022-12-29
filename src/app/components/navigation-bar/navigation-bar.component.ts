@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class NavigationBarComponent {
 
+  constructor(private router: Router) {}
+
+  openLogin() {
+    this.router.navigate(["/login"]);
+  }
 }

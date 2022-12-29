@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
@@ -13,9 +14,20 @@ import { ExperienceComponent } from './components/experience/experience.componen
 import { SkillsComponent } from './components/skills/skills.component';
 import { LanguagesComponent } from './components/languages/languages.component';
 import { ProyectsComponent } from './components/proyects/proyects.component';
+import { LoginComponent } from './components/login/login.component';
+import { PortfolioComponent } from './components/portfolio/portfolio.component';
+
+import { PortfolioService } from './services/portfolio.service';
 
 const appRoutes: Routes = [
-  
+  {
+    path: "",
+    component: PortfolioComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
+  }
 ];
 
 @NgModule({
@@ -30,13 +42,18 @@ const appRoutes: Routes = [
     ExperienceComponent,
     SkillsComponent,
     LanguagesComponent,
-    ProyectsComponent
+    ProyectsComponent,
+    LoginComponent,
+    PortfolioComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule
+    RouterModule.forRoot(appRoutes),
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    PortfolioService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

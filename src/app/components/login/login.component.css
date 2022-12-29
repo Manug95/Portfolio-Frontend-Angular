@@ -1,0 +1,12 @@
+.form-container {
+    margin-top: 15px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
