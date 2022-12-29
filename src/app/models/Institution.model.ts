@@ -4,7 +4,11 @@ export class Institution {
     private period: string = "";
     private logo: string = "";
 
-    constructor() {}
+    constructor(institutionName: string, title: string, period: string) {
+        this.institutionName = institutionName;
+        this.title = title;
+        this.period = period;
+    }
 
     // getters y setters
 

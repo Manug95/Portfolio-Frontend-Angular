@@ -10,6 +10,7 @@ export class Portfolio {
     private name: string = "";
     private lastName: string = "";
     private email: string = "";
+    private dob: Date = new Date();
     private sentence: string = "";
     private location: Location;
     private education: Institution[] = [];
