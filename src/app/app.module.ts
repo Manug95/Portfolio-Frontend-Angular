@@ -18,6 +18,7 @@ import { LoginComponent } from './components/login/login.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 
 import { PortfolioService } from './services/portfolio.service';
+import { LoginService } from './services/login.service';
 
 const appRoutes: Routes = [
   {
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
     FormsModule
   ],
   providers: [
-    PortfolioService
+    PortfolioService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

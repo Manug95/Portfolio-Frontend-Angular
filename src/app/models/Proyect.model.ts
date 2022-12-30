@@ -1,9 +1,15 @@
 export class Proyect {
     private proyectName: string = "";
     private description: string = "";
+    private period: string = "";
     private link: string = "";
 
-    constructor() {}
+    constructor(proyeactName: string, description: string, period: string, link: string) {
+        this.proyectName = proyeactName;
+        this.description = description;
+        this.period = period;
+        this.link = link;
+    }
 
     // getters y setters
 
@@ -21,6 +27,14 @@ export class Proyect {
 
     setDescription(description: string): void {
         this.description = description;
+    }
+
+    getPeriod(): string {
+        return this.period;
+    }
+
+    setPeriod(period: string): void {
+        this.period = period;
     }
 
     getLink(): string {

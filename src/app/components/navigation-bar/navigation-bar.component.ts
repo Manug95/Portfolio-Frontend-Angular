@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -8,9 +9,18 @@ import { Router } from '@angular/router';
 })
 export class NavigationBarComponent {
 
-  constructor(private router: Router) {}
+  loginStatus: boolean;
 
-  openLogin() {
+  constructor(private router: Router, private loginService: LoginService) {
+    this.loginStatus = this.loginService.getLoginStatus();
+  }
+
+  openLogin():void {
     this.router.navigate(["/login"]);
   }
+
+  // closeSesion():void {
+  //   console.log(this.loginStatus);
+  //   this.loginService.changeLoginStatus();console.log(this.loginStatus);
+  // }
 }

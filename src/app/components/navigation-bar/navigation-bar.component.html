@@ -21,8 +21,8 @@
         </a>
       </div>
       <div class="clo-12 col-md-3 d-flex justify-content-end">
-        <!-- <button id="btn-login">Login</button> -->
-        <button type="button" class="btn btn-warning" (click)="openLogin()">Login</button>
+        <!-- <button class="btn btn-warning" (click)="closeSesion()" *ngIf="!loginStatus">Logout</button> -->
+        <button type="button" class="btn btn-warning" (click)="openLogin()" *ngIf="!loginStatus">Login</button>
       </div>
     </div>
   </div>

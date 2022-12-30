@@ -4,39 +4,26 @@
       <div class="col-8 col-sm-6">
         <h2 class="titulo-seccion">Idiomas</h2>
       </div>
-      <div class="col-4 col-sm-6 icono-add">
-        <i class="bi bi-plus-square" title="Añadir"></i>
+      <div class="col-4 col-sm-6 icono-add" *ngIf="loginStatus">
+        <i class="bi bi-plus-square" title="Add"></i>
       </div>
     </div>
-    <div class="row sub-seccion">
+
+    <div class="row sub-seccion" *ngFor="let language of languages; let i=index">
       <div class="col-4">
-        <h4 class="idioma">Inglés</h4>
+        <h4 class="idioma">{{ language.getLang() }}</h4>
       </div>
       <div class="col-6">
         <div class="progress">
-          <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">75%</div>
+          <div class="progress-bar w-50" role="progressbar" aria-label="Basic example" 
+          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">{{ language.getProgress() }}%</div>
         </div>
       </div>
-      <div class="col-2 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar"></i>
-        <i class="bi bi-trash" title="Borrar"></i>
+      <div class="col-2 icono-ed-del" *ngIf="loginStatus">
+        <i class="bi bi-pencil" title="Edit"></i>
+        <i class="bi bi-trash" title="Delete"></i>
       </div>
     </div>
-    <div class="row sub-seccion">
-      <div class="col-4">
-        <h4 class="idioma">Italiano</h4>
-      </div>
-      <div class="col-6">
-        <div class="progress">
-          <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">75%</div>
-        </div>
-      </div>
-      <div class="col-2 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar"></i>
-        <i class="bi bi-trash" title="Borrar"></i>
-      </div>
-    </div>
+
   </div>
 </section>

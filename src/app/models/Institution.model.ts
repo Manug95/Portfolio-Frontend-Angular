@@ -2,12 +2,13 @@ export class Institution {
     private institutionName: string = "";
     private title: string = "";
     private period: string = "";
-    private logo: string = "";
+    private logo: string = "../../../assets/img/";
 
-    constructor(institutionName: string, title: string, period: string) {
+    constructor(institutionName: string, title: string, period: string, logo: string) {
         this.institutionName = institutionName;
         this.title = title;
         this.period = period;
+        this.logo = this.logo + logo;
     }
 
     // getters y setters
@@ -34,5 +35,13 @@ export class Institution {
 
     setPeriod(newPeriod: string) {
         this.period = newPeriod;
+    }
+
+    getUrlLogo(): string {
+        return this.logo;
+    }
+
+    setLogo(nameLogo: string): void {
+        this.logo = this.logo + nameLogo;
     }
 }

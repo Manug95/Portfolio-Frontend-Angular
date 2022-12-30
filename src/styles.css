@@ -37,7 +37,7 @@ body {
 }
 
 .sub-seccion {
-    margin-top: 10px;
+    margin-top: 10px!important;
 }
 
 .titulo-seccion {
@@ -62,6 +62,7 @@ body {
 .bi:hover {
     font-size: 23px;
     color: #ffc107;
+    cursor: pointer;
 }
 
 /* Seccion Educacion ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */

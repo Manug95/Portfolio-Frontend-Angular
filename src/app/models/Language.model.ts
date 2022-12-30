@@ -2,7 +2,10 @@ export class Language {
     private lang: string = "";
     private progress: number = 0;
 
-    constructor() {}
+    constructor(lang: string, progress: number) {
+        this.lang = lang;
+        this.progress = progress;
+    }
 
     // gettes y setters
 

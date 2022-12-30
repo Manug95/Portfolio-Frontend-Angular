@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent {
-  logged: boolean = false;
+  loginStatus: boolean = false;
 
   constructor() {}
 }

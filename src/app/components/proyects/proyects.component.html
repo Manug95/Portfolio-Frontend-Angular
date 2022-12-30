@@ -5,10 +5,10 @@
         <h2 class="titulo-seccion">Proyectos</h2>
       </div>
       <div class="col-4 col-sm-6 icono-add">
-        <i class="bi bi-plus-square" title="Añadir"></i>
+        <i class="bi bi-plus-square" title="Add" *ngIf="loginStatus"></i>
       </div>
     </div>
-    <div class="row sub-seccion">
+    <!-- <div class="row sub-seccion">
       <div class="col-10 col-sm-11">
         <h4 class="proyecto">Proyecto Integrador Portfolio Web Full Stack <a
             href="https://github.com/Manug95/Portfolio-Frontend" target="_blank" rel="noopener noreferrer"><i
@@ -19,12 +19,30 @@
           que muestre la información, una base de datos que almacene los datos antes mencionados y debe contar con las
           APIs necesarias para proveer a través de internet la información (back end).</p>
         <p>Período: 2022 - 2023</p>
-        <!-- <a href="https://github.com/Manug95/Portfolio-Frontend" target="_blank" rel="noopener noreferrer">Repositorio Git-Hub</a> -->
+        <a href="https://github.com/Manug95/Portfolio-Frontend" target="_blank" rel="noopener noreferrer">Repositorio Git-Hub</a>
       </div>
       <div class="col-2 col-sm-1 icono-ed-del">
         <i class="bi bi-pencil" title="Editar"></i>
         <i class="bi bi-trash" title="Borrar"></i>
       </div>
+    </div> -->
+
+    <div class="row sub-seccion" *ngFor="let proyect of proyects; let i=index">
+      <div class="col-10 col-sm-11">
+        <h4 class="proyecto">
+          {{ proyect.getProyectName() }}
+          <a href={{proyect.getLink()}} target="_blank" rel="noopener noreferrer">
+            <i class="bi bi-github"></i>
+          </a>
+        </h4>
+        <p>{{ proyect.getDescription() }}</p>
+        <p>{{ proyect.getPeriod() }}</p>
+      </div>
+      <div class="col-2 col-sm-1 icono-ed-del" *ngIf="loginStatus">
+        <i class="bi bi-pencil" title="Edit"></i>
+        <i class="bi bi-trash" title="Delete"></i>
+      </div>
     </div>
+
   </div>
 </section>

@@ -1,57 +1,32 @@
 <section class="habilidades">
+
   <div class="seccion container">
+
     <div class="row seccion-oscura">
       <div class="col-8 col-sm-6">
         <h2 class="titulo-seccion">Hard & Soft Skills</h2>
       </div>
-      <div class="col-4 col-sm-6 icono-add">
+      <div class="col-4 col-sm-6 icono-add" *ngIf="loginStatus">
         <i class="bi bi-plus-square" title="Añadir"></i>
       </div>
     </div>
-    <div class="row sub-seccion">
+
+    <div class="row sub-seccion" *ngFor="let skill of skills; let i=index">
       <div class="col-4">
-        <h4 class="habilidad">Habilidad 1</h4>
+        <h4 class="habilidad">{{ skill.getSkillName() }}</h4>
       </div>
       <div class="col-6">
         <div class="progress">
-          <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">75%</div>
+          <div class="progress-bar w-50" role="progressbar" aria-label="basic example" 
+            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">{{ skill.getProgress() }}%</div>
         </div>
       </div>
-      <div class="col-2 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar"></i>
-        <i class="bi bi-trash" title="Borrar"></i>
+      <div class="col-2 icono-ed-del" *ngIf="loginStatus">
+        <i class="bi bi-pencil" title="Edit"></i>
+        <i class="bi bi-trash" title="Delete"></i>
       </div>
     </div>
-    <div class="row sub-seccion">
-      <div class="col-4">
-        <h4 class="habilidad">Habilidad 2</h4>
-      </div>
-      <div class="col-6">
-        <div class="progress">
-          <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">75%</div>
-        </div>
-      </div>
-      <div class="col-2 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar"></i>
-        <i class="bi bi-trash" title="Borrar"></i>
-      </div>
-    </div>
-    <div class="row sub-seccion">
-      <div class="col-4">
-        <h4 class="habilidad">Habilidad 3</h4>
-      </div>
-      <div class="col-6">
-        <div class="progress">
-          <div class="progress-bar w-75" role="progressbar" aria-label="Basic example" aria-valuenow="75"
-            aria-valuemin="0" aria-valuemax="100">75%</div>
-        </div>
-      </div>
-      <div class="col-2 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar"></i>
-        <i class="bi bi-trash" title="Borrar"></i>
-      </div>
-    </div>
+    
   </div>
+
 </section>
