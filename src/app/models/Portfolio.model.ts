@@ -10,7 +10,7 @@ export class Portfolio {
     private name: string = "";
     private lastName: string = "";
     private email: string = "";
-    private dob: Date = new Date();
+    private dob: Date;
     private sentence: string = "";
     private location: Location;
     private education: Institution[] = [];
@@ -20,8 +20,9 @@ export class Portfolio {
     private proyects: Proyect[] = [];
     private social: string[] = [];
 
-    constructor(location: Location) {
+    constructor(location: Location, dob: Date) {
         this.location = location;
+        this.dob = dob;
     }
 
     // getters y setters
@@ -48,6 +49,14 @@ export class Portfolio {
 
     setEmail(email: string): void {
         this.email = email;
+    }
+
+    getDob(): Date {
+        return this.dob;
+    }
+
+    setDob(dob: Date): void {
+        this.dob = dob;
     }
 
     getSentence(): string {

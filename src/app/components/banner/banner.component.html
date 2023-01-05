@@ -8,13 +8,13 @@
     <div class="col">
       <div class="foto-perfil">
         <img src="../../../assets/img/foto-perfil.jpg" alt="Foto de Perfil de Manuel Gutiérrez" id="foto-perfil">
-        <i class="bi bi-pencil" title="Editar"></i>
+        <i class="bi bi-pencil" title="Edit" *ngIf="loginStatus"></i>
       </div>
-      <h2 id="mi-nombre"> {{name}} </h2>
+      <h2 id="mi-nombre"> {{fullName}} </h2>
       <div>
-        <p>27 Años</p>
-        <p>San Luis (Argentina)</p>
-        <!-- <p>e-mail: manu95gutierrez@gmail.com</p> -->
+        <p>{{dob.getDate()}} / {{dob.getMonth()}}  /  {{dob.getFullYear()}} ({{calculateAge()}} Años)</p>
+        <p>{{location.getStreet()}}, {{location.getCity()}}, {{location.getCountry()}}</p>
+        <!-- <p>e-mail</p> -->
       </div>
     </div>
   </div>

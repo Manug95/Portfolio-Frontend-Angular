@@ -31,6 +31,14 @@ export class PortfolioService {
     return this.portfolio.getEmail();
   }
 
+  getDob(): Date {
+    return this.portfolio.getDob();
+  }
+
+  getLocation(): Location {
+    return this.portfolio.getLocation();
+  }
+  
   getEducation(): Institution[] {
     return this.portfolio.getEducation();
   }
@@ -59,7 +67,7 @@ export class PortfolioService {
     lugar.setCountry("Argentina");
     lugar.setCity("San Luis");
     lugar.setStreet("Mitre 618");
-    let newPortfolio: Portfolio = new Portfolio(lugar);
+    let newPortfolio: Portfolio = new Portfolio(lugar, new Date(1995, 11, 8));
 
     newPortfolio.setName("Manuel");
     newPortfolio.setLastName("Gutiérrez");

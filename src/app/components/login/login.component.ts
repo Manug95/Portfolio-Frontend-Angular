@@ -18,7 +18,7 @@ export class LoginComponent {
   constructor(private router: Router, private loginService: LoginService) {}
 
   login():void {
-    this.loginService.changeLoginStatus();
+    this.loginService.startSesionService();
     this.router.navigate(["/"]);
   }
 

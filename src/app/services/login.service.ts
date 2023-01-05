@@ -13,7 +13,15 @@ export class LoginService {
     return this.loginStatus;
   }
 
-  changeLoginStatus(): void {
-    this.loginStatus = !this.loginStatus;
+  startSesionService(): void {
+    this.loginStatus = true;
   }
+
+  closeSesionService(): void {
+    this.loginStatus = false;
+  }
+
+  // paraElLogout(): Promise<boolean> {
+  //   return new Promise(this.loginStatus);
+  // }
 }

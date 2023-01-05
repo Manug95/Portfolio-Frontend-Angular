@@ -17,10 +17,12 @@ export class NavigationBarComponent {
 
   openLogin():void {
     this.router.navigate(["/login"]);
+    // this.loginService.paraElLogout().then(value => console.log(value));
   }
 
-  // closeSesion():void {
-  //   console.log(this.loginStatus);
-  //   this.loginService.changeLoginStatus();console.log(this.loginStatus);
-  // }
+  closeSesion():void {
+    // console.log(this.loginStatus);
+    this.loginService.closeSesionService();
+    window.location.reload();
+  }
 }
