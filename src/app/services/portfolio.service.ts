@@ -102,15 +102,15 @@ export class PortfolioService {
     ));
 
     newPortfolio.addSkill(new Skill(
-      "Habilidad 1",
+      "HTML",
       "50"
     ));
     newPortfolio.addSkill(new Skill(
-      "Habilidad 2",
+      "CSS",
       "50"
     ));
     newPortfolio.addSkill(new Skill(
-      "Habilidad 3",
+      "JavaScript",
       "50"
     ));
 

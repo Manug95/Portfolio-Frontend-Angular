@@ -9,15 +9,18 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class NavigationBarComponent {
 
-  loginStatus: boolean;
+  // loginStatus: boolean;
+
+  @Input() loginStatusPadre: boolean = false;
 
   constructor(private router: Router, private loginService: LoginService) {
-    this.loginStatus = this.loginService.getLoginStatus();
+    // this.loginStatus = this.loginService.getLoginStatus();
+    // console.log(this.loginPadre);
   }
 
   openLogin():void {
     this.router.navigate(["/login"]);
-    // this.loginService.paraElLogout().then(value => console.log(value));
+    // setTimeout(() => console.log(this.loginPadre), 5000);
   }
 
   closeSesion():void {
