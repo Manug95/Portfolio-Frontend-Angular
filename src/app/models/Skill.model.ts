@@ -1,8 +1,8 @@
 export class Skill {
     private skillName: string = "";
-    private progress: string = "0";
+    private progress: number = 0;
 
-    constructor(skillName: string, progress: string) {
+    constructor(skillName: string, progress: number) {
         this.skillName = skillName;
         this.progress = progress;
     }
@@ -17,11 +17,11 @@ export class Skill {
         this.skillName = skill;
     }
 
-    getProgress(): string {
+    getProgress(): number {
         return this.progress;
     }
 
-    setProgress(progress: string) {
+    setProgress(progress: number) {
         this.progress = progress;
     }
 }

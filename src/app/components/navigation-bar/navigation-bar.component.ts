@@ -26,6 +26,6 @@ export class NavigationBarComponent {
   closeSesion():void {
     // console.log(this.loginStatus);
     this.loginService.closeSesionService();
-    window.location.reload();
+    // window.location.reload();
   }
 }

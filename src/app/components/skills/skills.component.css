@@ -1,0 +1,13 @@
+/* app-pie-chart ngx-charts-pie-chart ngx-chart-charts div.ngx-chrats-outer svg.ngx-charts {
+    max-width: 200px!important;
+    background-color: blue;
+} */
+
+.skills-icon {
+    position: relative;
+    top: -150px;
+}
+
+.chart {
+    padding: 0 60px;
+}

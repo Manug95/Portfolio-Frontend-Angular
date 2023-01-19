@@ -16,9 +16,13 @@ import { LanguagesComponent } from './components/languages/languages.component';
 import { ProyectsComponent } from './components/proyects/proyects.component';
 import { LoginComponent } from './components/login/login.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 
 import { PortfolioService } from './services/portfolio.service';
 import { LoginService } from './services/login.service';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const appRoutes: Routes = [
   {
@@ -45,12 +49,15 @@ const appRoutes: Routes = [
     LanguagesComponent,
     ProyectsComponent,
     LoginComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    NgxChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     PortfolioService,
