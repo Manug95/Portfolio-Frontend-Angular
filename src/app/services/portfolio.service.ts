@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Portfolio } from '../models/Portfolio.model';
-import { Location } from '../models/Location.model';
+import { Adress } from '../models/Adress.model';
 import { Institution } from '../models/Institution.model';
 import { Experience } from '../models/Experience.model';
 import { Skill } from '../models/Skill.model';
@@ -35,8 +35,8 @@ export class PortfolioService {
     return this.portfolio.getDob();
   }
 
-  getLocation(): Location {
-    return this.portfolio.getLocation();
+  getAdress(): Adress {
+    return this.portfolio.getAdress();
   }
   
   getEducation(): Institution[] {
@@ -63,7 +63,7 @@ export class PortfolioService {
 
   private createPortfolio() {
 
-    const lugar: Location = new Location();
+    const lugar: Adress = new Adress();
     lugar.setCountry("Argentina");
     lugar.setCity("San Luis");
     lugar.setStreet("Mitre 618");

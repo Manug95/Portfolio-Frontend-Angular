@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Location } from 'src/app/models/Location.model';
+import { Adress } from 'src/app/models/Adress.model';
 import { LoginService } from 'src/app/services/login.service';
 import { PortfolioService } from 'src/app/services/portfolio.service';
 

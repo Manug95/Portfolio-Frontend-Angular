@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from 'src/app/models/Location.model';
+import { Adress } from 'src/app/models/Adress.model';
 import { LoginService } from 'src/app/services/login.service';
 import { PortfolioService } from 'src/app/services/portfolio.service';
 
@@ -13,7 +13,7 @@ export class BannerComponent implements OnInit {
   fullName: string;
   dob: Date;
   email: string;
-  location: Location;
+  adress: Adress;
 
   constructor(private loginService: LoginService, private portfolioService: PortfolioService) {
     this.loginStatus = this.loginService.getLoginStatus();
@@ -21,7 +21,7 @@ export class BannerComponent implements OnInit {
     this.fullName = this.portfolioService.getName() + " " + this.portfolioService.getLastName();
     this.dob =  this.portfolioService.getDob();
     this.email = this.portfolioService.getEmail();
-    this.location = this.portfolioService.getLocation();
+    this.adress = this.portfolioService.getAdress();
   }
 
   ngOnInit(): void {

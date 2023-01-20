@@ -1,4 +1,4 @@
-export class Location {
+export class Adress {
     private country: string = "";
     private city: string = "";
     private street: string = "";

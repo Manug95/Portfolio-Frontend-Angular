@@ -1,7 +1,7 @@
 import { Experience } from "./Experience.model";
 import { Institution } from "./Institution.model";
 import { Language } from "./Language.model";
-import { Location } from "./Location.model";
+import { Adress } from "./Adress.model";
 import { Proyect } from "./Proyect.model";
 import { Skill } from "./Skill.model";
 
@@ -12,7 +12,7 @@ export class Portfolio {
     private email: string = "";
     private dob: Date;
     private sentence: string = "";
-    private location: Location;
+    private adress: Adress;
     private education: Institution[] = [];
     private experience: Experience[] = [];
     private skills: Skill[] = [];
@@ -20,8 +20,8 @@ export class Portfolio {
     private proyects: Proyect[] = [];
     private social: string[] = [];
 
-    constructor(location: Location, dob: Date) {
-        this.location = location;
+    constructor(adress: Adress, dob: Date) {
+        this.adress = adress;
         this.dob = dob;
     }
 
@@ -67,12 +67,12 @@ export class Portfolio {
         this.sentence = sentence;
     }
 
-    getLocation(): Location {
-        return this.location;
+    getAdress(): Adress {
+        return this.adress;
     }
 
-    setLocation(location: Location): void {
-        this.location = location;
+    setLocation(adress: Adress): void {
+        this.adress = adress;
     }
 
     getEducation(): Institution[] {
