@@ -1,13 +1,53 @@
-/* app-pie-chart ngx-charts-pie-chart ngx-chart-charts div.ngx-chrats-outer svg.ngx-charts {
-    max-width: 200px!important;
-    background-color: blue;
-} */
-
-.skills-icon {
-    position: relative;
-    top: -150px;
+h4 {
+    text-align: center;
+    margin-bottom: 0;
 }
 
-.chart {
-    padding: 0 60px;
+.circulito-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circulito {
+    width: 20px;
+    height: 20px;
+    border-radius: 10%;
+}
+
+.color1 {
+    background-color: #ffc107;
+}
+
+.color2 {
+    background-color: #A10A28;
+}
+
+.habilidad-label {
+    margin: 0 5px;
+}
+
+/* estilos de los iconos de editar y borrar */
+
+.icono-ed-del-chart i{
+    padding-left: 10px;
+    font-size: 20px;
+}
+
+.chart-container {
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width: 576px) {
+    /* .icono-ed-del {
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 0;
+        font-size: 15px;
+    } */
+
+    .icono-ed-del-chart {
+        font-size: 15px;
+    }
 }

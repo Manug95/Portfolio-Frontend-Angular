@@ -18,4 +18,12 @@ export class SkillsComponent {
     this.skills = this.portfolioService.getSkills();
   }
 
+  esPar(n: number): boolean {
+    return (n % 2) == 0;
+  }
+
+  esLaUltimaHabilidad(indice: number) {
+    return indice == this.skills.length-1 && this.esPar(indice);
+  }
+
 }

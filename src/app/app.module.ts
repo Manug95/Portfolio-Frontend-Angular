@@ -50,7 +50,7 @@ const appRoutes: Routes = [
     ProyectsComponent,
     LoginComponent,
     PortfolioComponent,
-    PieChartComponent
+    PieChartComponent,
   ],
   imports: [
     BrowserModule,
