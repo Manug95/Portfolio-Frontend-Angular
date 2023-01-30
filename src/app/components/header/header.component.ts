@@ -16,6 +16,15 @@ export class HeaderComponent {
     this.loginStatus = this.loginService.getLoginStatus();
     // console.log(this.loginStatus);
     // setTimeout(() => console.log(this.loginStatus), 10000);
+
+    /**
+     * recibe el login status del loginService
+     */
+    loginService.changeEmitted$.subscribe(cambio => {
+      this.loginStatus = cambio;
+      // console.log(this.loginStatus);
+    });
+    
   }
 
 }

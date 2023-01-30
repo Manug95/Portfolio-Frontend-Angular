@@ -16,5 +16,14 @@ export class EducationComponent {
   constructor(private portfolioService: PortfolioService, private loginService: LoginService) {
     this.institutions = this.portfolioService.getEducation();
     this.loginStatus = this.loginService.getLoginStatus();
+
+    /**
+     * recibe el login status del loginService
+     */
+    loginService.changeEmitted$.subscribe(cambio => {
+      this.loginStatus = cambio;
+      // console.log(this.loginStatus);
+    });
+    
   }
 }

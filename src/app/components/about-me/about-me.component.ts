@@ -13,6 +13,15 @@ export class AboutMeComponent implements OnInit {
 
   constructor(private loginService: LoginService) {
     this.loginStatus = this.loginService.getLoginStatus();
+
+    /**
+     * recibe el login status del loginService
+     */
+    loginService.changeEmitted$.subscribe(cambio => {
+      this.loginStatus = cambio;
+      // console.log(this.loginStatus);
+    });
+    
   }
 
   ngOnInit(): void {

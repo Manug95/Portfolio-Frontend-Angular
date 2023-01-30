@@ -16,6 +16,15 @@ export class SkillsComponent {
   constructor(private portfolioService: PortfolioService, private loginService: LoginService) {
     this.loginStatus = this.loginService.getLoginStatus();
     this.skills = this.portfolioService.getSkills();
+
+    /**
+     * recibe el login status del loginService
+     */
+    loginService.changeEmitted$.subscribe(cambio => {
+      this.loginStatus = cambio;
+      // console.log(this.loginStatus);
+    });
+    
   }
 
   esPar(n: number): boolean {

@@ -16,6 +16,15 @@ export class ExperienceComponent {
   constructor(private portfolioService: PortfolioService, private loginService: LoginService) {
     this.loginStatus = this.loginService.getLoginStatus();
     this.experiences = this.portfolioService.getExperience();
+
+    /**
+     * recibe el login status del loginService
+     */
+    loginService.changeEmitted$.subscribe(cambio => {
+      this.loginStatus = cambio;
+      // console.log(this.loginStatus);
+    });
+    
   }
 
 }

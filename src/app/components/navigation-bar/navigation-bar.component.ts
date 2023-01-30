@@ -26,6 +26,11 @@ export class NavigationBarComponent {
   closeSesion():void {
     // console.log(this.loginStatus);
     this.loginService.closeSesionService();
-    // window.location.reload();
+    this.loginStatusPadre = this.loginService.getLoginStatus();
+    this.emitirCambioLoginStatus();
+  }
+
+  emitirCambioLoginStatus() {
+    this.loginService.emitChange(this.loginStatusPadre);
   }
 }

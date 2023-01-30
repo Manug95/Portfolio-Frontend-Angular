@@ -16,6 +16,15 @@ export class LanguagesComponent {
   constructor(private portfolioService: PortfolioService, private loginService: LoginService) {
     this.loginStatus = this.loginService.getLoginStatus();
     this.languages = this.portfolioService.getLanguages();
+
+    /**
+     * recibe el login status del loginService
+     */
+    loginService.changeEmitted$.subscribe(cambio => {
+      this.loginStatus = cambio;
+      // console.log(this.loginStatus);
+    });
+    
   }
 
 }
