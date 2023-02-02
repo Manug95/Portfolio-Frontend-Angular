@@ -1,31 +1,13 @@
 <section class="proyectos">
   <div class="seccion container">
     <div class="row seccion-oscura">
-      <div class="col-8 col-sm-6">
+      <div class="col-10 col-sm-10"> <!-- antes era col-8 col-sm-6 -->
         <h2 class="titulo-seccion">Proyectos</h2>
       </div>
-      <div class="col-4 col-sm-6 icono-add">
-        <i class="bi bi-plus-square" title="Add" *ngIf="loginStatus"></i>
+      <div class="col-2 col-sm-2 icono-add" *ngIf="loginStatus"> <!-- antes era col-4 col-sm-6 -->
+        <i class="bi bi-plus-square" title="Add"></i>
       </div>
     </div>
-    <!-- <div class="row sub-seccion">
-      <div class="col-10 col-sm-11">
-        <h4 class="proyecto">Proyecto Integrador Portfolio Web Full Stack <a
-            href="https://github.com/Manug95/Portfolio-Frontend" target="_blank" rel="noopener noreferrer"><i
-              class="bi bi-github"></i></a></h4>
-        <p>Desarrollar una aplicación web full stack, que mostrará: tus datos personales, estudios cursados, experiencia
-          laboral, conocimiento de las tecnologías y lo que desees agregar. Es decir, ¡crear tu propio portfolio web!
-          Esta aplicación deberá ser de arquitectura distribuida y contener un diseño de interfaz de usuario (front end)
-          que muestre la información, una base de datos que almacene los datos antes mencionados y debe contar con las
-          APIs necesarias para proveer a través de internet la información (back end).</p>
-        <p>Período: 2022 - 2023</p>
-        <a href="https://github.com/Manug95/Portfolio-Frontend" target="_blank" rel="noopener noreferrer">Repositorio Git-Hub</a>
-      </div>
-      <div class="col-2 col-sm-1 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar"></i>
-        <i class="bi bi-trash" title="Borrar"></i>
-      </div>
-    </div> -->
 
     <div class="row sub-seccion" *ngFor="let proyect of proyects; let i=index">
       <div class="col-10 col-sm-11">

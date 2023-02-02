@@ -1,0 +1,32 @@
+* tarea para hacer
+**tarea completada a medias o con posibilidad de mejorar o cambiar
+***tarea completada
+
+/*---    IMPORTANTES    ---*/
+*	agragar segunda barra navegacion
+*	estilos al template del loginComponent
+*	hacer componente home que aparezca antes de iniciar sesion
+*	hacer boton "ir arriba" y mostrar/oculatar iconos
+**	centrar los titulo de seccion en dispositivos pequeños
+*	acomodar el template del bannerComponent
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*---    OPCIONALES    ---*/
+*	que el portfolio sea una especie de carrusel en vez de que haya que escrolear para verlo
+
+
+
+
+
+
