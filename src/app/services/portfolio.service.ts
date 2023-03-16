@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Portfolio } from '../models/Portfolio.model';
 import { Adress } from '../models/Adress.model';
 import { Institution } from '../models/Institution.model';
@@ -6,17 +6,30 @@ import { Experience } from '../models/Experience.model';
 import { Skill } from '../models/Skill.model';
 import { Language } from '../models/Language.model';
 import { Proyect } from '../models/Proyect.model';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AutenticationService } from './autentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PortfolioService {
 
+  url: string = "http://localhost:8080/";
+
   //TODO ver como hacer para no tener que usar el !
   private portfolio!: Portfolio;
 
-  constructor() {
+  constructor(private httpClient: HttpClient, private autenticationService: AutenticationService) {
     this.createPortfolio();
+  }
+
+  getPersona(): Observable<any> {
+    let currentUser = this.autenticationService.getUserAutenticated();
+
+    let id = currentUser.idPersona;
+
+    return this.httpClient.get<any>(this.url + `personas/traer?id=${id}`);
   }
 
   getName(): string {

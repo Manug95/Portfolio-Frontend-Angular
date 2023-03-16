@@ -6,7 +6,7 @@
       <div class="col-10 col-sm-10"> <!-- antes era col-8 col-sm-6 -->
         <h2 class="titulo-seccion">Hard & Soft Skills</h2>
       </div>
-      <div class="col-2 col-sm-2 icono-add" *ngIf="loginStatus"> <!-- antes era col-4 col-sm-6 -->
+      <div class="col-2 col-sm-2 icono-add" > <!-- antes era col-4 col-sm-6 --> <!-- *ngIf="loginStatus" -->
         <i class="bi bi-plus-square" title="Add"></i>
       </div>
     </div>
@@ -20,7 +20,7 @@
       >
         <h4>
           {{skill.getSkillName()}}
-          <span class="icono-ed-del-chart" *ngIf="loginStatus">
+          <span class="icono-ed-del-chart" > <!-- *ngIf="loginStatus" -->
             <i class="bi bi-pencil" title="Edit"></i>
             <i class="bi bi-trash" title="Delete"></i>
           </span>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
@@ -23,16 +23,25 @@ import { LoginService } from './services/login.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AutenticationService } from './services/autentication.service';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './services/interceptor.service';
 
 const appRoutes: Routes = [
   {
     path: "",
-    component: PortfolioComponent
+    component: PortfolioComponent/*,
+    CanAtivate: [GuardGuard]*/
   },
   {
     path: "login",
     component: LoginComponent
-  }
+  },
+  // {//este objeto es para cuando la ruta esta vacia lo redirija al componente login
+  //   path: "",
+  //   redirectTo: "login",
+  //   pathMatch: "full"
+  // }
 ];
 
 @NgModule({
@@ -56,12 +65,17 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     FormsModule,
+    ReactiveFormsModule,
     NgxChartsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
+    //HttpClient,
     PortfolioService,
-    LoginService
+    LoginService,
+    AutenticationService,
+    {provide: HTTP_INTERCEPTORS, useClass: InterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

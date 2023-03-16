@@ -6,6 +6,7 @@
 *	agragar segunda barra navegacion
 *	estilos al template del loginComponent
 *	hacer componente home que aparezca antes de iniciar sesion
+*   hacer componentes para editar y agregar cosas en el portfolio
 *	hacer boton "ir arriba" y mostrar/oculatar iconos
 **	centrar los titulo de seccion en dispositivos pequeños
 *	acomodar el template del bannerComponent

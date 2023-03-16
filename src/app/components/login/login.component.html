@@ -2,20 +2,51 @@
   <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
-      <h2>Sign in</h2>
-      <form action="" class="form-control">
+
+      <h1>Iniciar Sesion</h1>
+
+      <form [formGroup]="form" action="" class="form-control" (ngSubmit)="login($event)"><!-- agregar al form (ngSubmit)="login($event)" -->
+
         <div class="mb-3">
-          <label for="mail" class="form-label">Email</label>
-          <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com">
+          <label for="user" class="form-label">Usuario</label>
+          <input type="text" 
+            formControlName="nombreUsuario" 
+            [ngClass]="{ 'is-invalid': NombreUsuario?.errors && NombreUsuario?.touched, 'is-valid': !NombreUsuario?.errors && NombreUsuario?.touched }"
+            class="form-control" 
+            id="user" 
+            name="user"
+          >
+          <div *ngIf="NombreUsuario?.errors && NombreUsuario?.touched">
+            <p *ngIf="NombreUsuario?.hasError('required')" class="text-danger">
+              El Usuario es requerido!
+            </p>
+          </div>
         </div>
+
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password">
+          <label for="password" class="form-label">Contraseña</label>
+          <input type="password" 
+            formControlName="contrasenia" 
+            [ngClass]="{ 'is-invalid': Contrasenia?.errors && Contrasenia?.touched, 'is-valid': !Contrasenia?.errors && Contrasenia?.touched }"
+            class="form-control" 
+            id="password" 
+            name="password"
+          >
+          <div *ngIf="Contrasenia?.errors && Contrasenia?.touched">
+            <p *ngIf="Contrasenia?.hasError('required')" class="text-danger">
+              La contraseña es requerida!
+            </p>
+            <p *ngIf="Contrasenia?.errors?.['minlength']" class="text-danger">
+              La contraseña de ser de 8 o más caracteres!
+            </p>
+          </div>
         </div>
+
         <div class="mb-3 buttons">
-          <input type="submit" value="Login" class="btn btn-warning" (click)="login()">
+          <input type="submit" value="Login" class="btn btn-warning" (click)="login($event)">
           <button (click)="goToPortfolio()" class="btn btn-warning">Cancel</button>
         </div>
+
       </form>
     </div>
     <div class="col-3"></div>

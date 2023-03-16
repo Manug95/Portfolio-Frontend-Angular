@@ -25,9 +25,11 @@ export class NavigationBarComponent {
 
   closeSesion():void {
     // console.log(this.loginStatus);
+    //this.loginService.closeSesionService();
+    this.loginStatusPadre = !this.loginStatusPadre;//this.loginService.getLoginStatus();
     this.loginService.closeSesionService();
-    this.loginStatusPadre = this.loginService.getLoginStatus();
     this.emitirCambioLoginStatus();
+    this.router.navigate(["/login"]);
   }
 
   emitirCambioLoginStatus() {

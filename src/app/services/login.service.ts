@@ -20,6 +20,7 @@ export class LoginService {
 
   closeSesionService(): void {
     this.loginStatus = false;
+    sessionStorage.removeItem("currentUser");
   }
 
 
