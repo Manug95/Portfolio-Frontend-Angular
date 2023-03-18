@@ -11,7 +11,7 @@ export class Portfolio {
     private lastName: string = "";
     private email: string = "";
     private dob: Date;
-    private sentence: string = "";
+    private aboutMe: string = "";
     private adress: Adress;
     private education: Institution[] = [];
     private experience: Experience[] = [];
@@ -59,12 +59,12 @@ export class Portfolio {
         this.dob = dob;
     }
 
-    getSentence(): string {
-        return this.sentence;
+    getAboutMe(): string {
+        return this.aboutMe;
     }
 
-    setSentence(sentence: string): void {
-        this.sentence = sentence;
+    setAboutMe(aboutMe: string): void {
+        this.aboutMe = aboutMe;
     }
 
     getAdress(): Adress {

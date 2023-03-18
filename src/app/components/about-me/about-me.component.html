@@ -7,14 +7,50 @@
       <div class="col-10">
         <!-- <button (click)="prueba()">prueba</button> -->
         <!-- <p class="texto-descripcion">Estudiante de la Tecnicatura en Desarrollo de Software en Universidad de La Punta y Estudiante en Argentina Programa</p> -->
-        <p class="texto-descripcion">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis efficitur, nunc at
-          mattis faucibus, mi sem volutpat ipsum, vitae posuere massa dui ut massa. Ut hendrerit quis erat eget
-          dignissim. Aenean venenatis, risus vitae egestas gravida, risus risus dapibus risus, in molestie augue metus
-          non leo.</p>
+        
+        <div *ngIf="sobreMiProperty.length > 0">
+          <p  class="texto-descripcion">{{sobreMiProperty}}</p>
+        </div>
+        <div *ngIf="sobreMiProperty.length == 0">
+          <p  class="texto-descripcion">No hay datos cargados en la sección sobre mi</p>
+        </div>
+        
       </div>
       <div class="col-2 icono-ed-del">
-        <i class="bi bi-pencil" title="Editar" ></i><!-- *ngIf="loginStatus" -->
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar" >
+          <i class="bi bi-pencil" title="Editar" ></i> <!-- *ngIf="loginStatus" -->
+        </button> 
       </div>
     </div>
   </div>
 </section>
+
+<div class="modal fade" tabindex="-1" id="modal-editar" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="titulo-modal-editar" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-editar">Editar Sobre-Mi</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="limpiarMensaje()"></button>
+      </div>
+      
+      <div class="modal-body">
+
+        <textarea name="edicion" id="text-edit" cols="60" rows="10" [value]="sobreMiProperty" #edicion></textarea>
+        <p *ngFor="let mensaje of validate(edicion.value)" class="text-danger">
+          {{mensaje}}
+        </p>
+        <p *ngIf="validate(edicion.value).length == 0 && edicionExitosa" class="text-success">
+          Datos guardados
+        </p>
+
+      </div>
+
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
+        <button type="button" class="btn btn-warning" (click)="saveChangesModalEdit(edicion.value)">Guardar Cambios</button>
+      </div>
+
+    </div>
+  </div>
+</div>

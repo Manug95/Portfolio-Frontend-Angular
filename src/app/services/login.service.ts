@@ -14,15 +14,11 @@ export class LoginService {
     return this.loginStatus;
   }
 
-  startSesionService(): void {
-    this.loginStatus = true;
-  }
-
   closeSesionService(): void {
     this.loginStatus = false;
     sessionStorage.removeItem("currentUser");
+    sessionStorage.removeItem("personaPortfolio");
   }
-
 
   
   /*

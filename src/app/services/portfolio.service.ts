@@ -6,7 +6,7 @@ import { Experience } from '../models/Experience.model';
 import { Skill } from '../models/Skill.model';
 import { Language } from '../models/Language.model';
 import { Proyect } from '../models/Proyect.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AutenticationService } from './autentication.service';
 
@@ -19,6 +19,7 @@ export class PortfolioService {
 
   //TODO ver como hacer para no tener que usar el !
   private portfolio!: Portfolio;
+  public onLoginChange = new Subject<any>();
 
   constructor(private httpClient: HttpClient, private autenticationService: AutenticationService) {
     this.createPortfolio();
@@ -31,6 +32,24 @@ export class PortfolioService {
 
     return this.httpClient.get<any>(this.url + `personas/traer?id=${id}`);
   }
+
+  editarSobreMi(value: string): Observable<any> {
+    let persona = JSON.parse( sessionStorage.getItem("personaPortfolio") || "{}" );
+    persona.sobreMi = value;
+    return this.httpClient.put(this.url + `personas/editar`, persona, {observe: "response"});
+  }
+
+
+
+
+
+
+
+
+
+
+  
+
 
   getName(): string {
     return this.portfolio.getName();
@@ -85,7 +104,7 @@ export class PortfolioService {
     newPortfolio.setName("Manuel");
     newPortfolio.setLastName("Gutiérrez");
     newPortfolio.setEmail("manu95gutierrez@gmail.com");
-    newPortfolio.setSentence("");
+    newPortfolio.setAboutMe("");
     // newPortfolio.setLocation();
 
     newPortfolio.addEducationInstitution(new Institution(

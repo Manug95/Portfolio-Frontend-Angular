@@ -26,16 +26,17 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AutenticationService } from './services/autentication.service';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { InterceptorService } from './services/interceptor.service';
+import { GuardGuard } from './services/guard.guard';
 
 const appRoutes: Routes = [
   {
-    path: "",
-    component: PortfolioComponent/*,
-    CanAtivate: [GuardGuard]*/
-  },
-  {
     path: "login",
     component: LoginComponent
+  },
+  {
+    path: "portfolio",
+    component: PortfolioComponent,
+    canActivate: [GuardGuard]
   },
   // {//este objeto es para cuando la ruta esta vacia lo redirija al componente login
   //   path: "",

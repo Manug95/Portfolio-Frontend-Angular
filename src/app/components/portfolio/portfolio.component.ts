@@ -7,15 +7,16 @@ import { PortfolioService } from 'src/app/services/portfolio.service';
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
+  
   loginStatus: boolean = false;
 
   constructor(private portfolioService: PortfolioService) {}
 
   ngOnInit(): void {
-    this.portfolioService.getPersona().subscribe( data => {
-      // sessionStorage.setItem("personaPortfolio", data);
-      sessionStorage.setItem("personaPortfolio", JSON.stringify(data));
-      // console.log(data.nombre);
-    });
+    // this.portfolioService.getPersona().subscribe( data => {
+    //   // sessionStorage.setItem("personaPortfolio", data);
+    //   sessionStorage.setItem("personaPortfolio", JSON.stringify(data));
+    //   // console.log(data.nombre);
+    // });
   }
 }

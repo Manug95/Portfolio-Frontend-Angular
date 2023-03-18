@@ -14,14 +14,11 @@ export class LoginComponent {
 
   loginStatus: boolean;
 
-  // user: string = "";
-  // password: string = "";
-
   form: FormGroup;
 
-  // @Output() loginChange: EventEmitter<boolean> = new EventEmitter();
-
-  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder, private autenticationService: AutenticationService) {
+  constructor(private router: Router, private loginService: LoginService, private formBuilder: FormBuilder, 
+    private autenticationService: AutenticationService, private portfolioService: PortfolioService) 
+  {
     this.loginStatus = this.loginService.getLoginStatus();
 
     this.form = this.formBuilder.group(
@@ -34,33 +31,33 @@ export class LoginComponent {
   }
 
   login(event: Event) {
+
     event.preventDefault;
-//console.log(this.form.value.nombreUsuario);
+
     this.autenticationService.login(this.form.value.nombreUsuario, this.form.value.contrasenia).subscribe(data => {
-      //console.log("DATA: " + JSON.stringify(data));
 
       this.loginStatus = data != null;
       this.emitirCambioLoginStatus();
 
       if (this.loginStatus) {
-        this.router.navigate(["/"]);
+
+        this.portfolioService.getPersona().subscribe( data => {
+          //paso los datos al subject de PortfolioService
+          this.portfolioService.onLoginChange.next(data);
+
+          sessionStorage.setItem("personaPortfolio", JSON.stringify(data));
+          
+          this.router.navigate(["/portfolio"]);
+        });
+        // this.router.navigate(["/portfolio"]);
+        
       } else {
         console.log("usuario o contraseña incorrectos");
       }
 
     });
-    // this.loginStatus = sessionStorage.getItem("currentUser")!= null;
-    // this.emitirCambioLoginStatus();
+    
   }
-
-  // login1():void {
-  //   this.loginService.startSesionService();
-  //   this.loginStatus = this.loginService.getLoginStatus();
-
-  //   this.emitirCambioLoginStatus();//envio el loginStatus al appComponent
-
-  //   this.router.navigate(["/"]);
-  // }
 
   goToPortfolio(): void {
     this.router.navigate(["/"]);
