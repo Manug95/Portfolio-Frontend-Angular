@@ -6,7 +6,7 @@ import { Experience } from '../models/Experience.model';
 import { Skill } from '../models/Skill.model';
 import { Language } from '../models/Language.model';
 import { Proyect } from '../models/Proyect.model';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AutenticationService } from './autentication.service';
 
@@ -20,6 +20,7 @@ export class PortfolioService {
   //TODO ver como hacer para no tener que usar el !
   private portfolio!: Portfolio;
   public onLoginChange = new Subject<any>();
+  //public onLoginChange = new BehaviorSubject<any>(JSON.parse("{}"));
 
   constructor(private httpClient: HttpClient, private autenticationService: AutenticationService) {
     this.createPortfolio();
@@ -33,15 +34,39 @@ export class PortfolioService {
     return this.httpClient.get<any>(this.url + `personas/traer?id=${id}`);
   }
 
+  //-------------------sobre mi-------------------------------------
+
   editarSobreMi(value: string): Observable<any> {
     let persona = JSON.parse( sessionStorage.getItem("personaPortfolio") || "{}" );
     persona.sobreMi = value;
     return this.httpClient.put(this.url + `personas/editar`, persona, {observe: "response"});
   }
 
+  //-------------------educacion------------------------------------
 
+  editarEducacion(educacionEditada: any): Observable<any> {
 
+    const id = this.autenticationService.getUserAutenticated().idPersona;
 
+    return this.httpClient.put(this.url + `educacion/editar?idPersona=${id}`, educacionEditada);
+
+  }
+
+  agregarEducacion(nuevaEducacion: any): Observable<any> {
+
+    const id = this.autenticationService.getUserAutenticated().idPersona;
+
+    return this.httpClient.post(this.url + `educacion/guardar?idPersona=${id}`, nuevaEducacion);
+
+  }
+
+  eliminarEducacion(idEdu: number): Observable<any> {
+
+    const id = this.autenticationService.getUserAutenticated().idPersona;
+
+    return this.httpClient.delete(this.url + `educacion/eliminar?idEducacion=${idEdu}&idPersona=${id}`);
+
+  }
 
 
 

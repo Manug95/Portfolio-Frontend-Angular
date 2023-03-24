@@ -9,3 +9,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.hide-item {
+    display: none;
+}
+
+.show-item {
+    display: block;
+}

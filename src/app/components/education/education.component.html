@@ -1,33 +1,214 @@
 <section class="educacion">
 
   <div class="seccion container">
+    
     <div class="row seccion-oscura">
       <div class="col-10 col-sm-10"> <!-- antes era col-8 col-sm-6 -->
         <h2 class="titulo-seccion">Educación</h2>
       </div>
       <div class="col-2 col-sm-2 icono-add" > <!-- antes era col-4 col-sm-6 --> <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-plus-square" title="Añadir"></i>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-educacion" (click)="openAddModal()">
+          <i class="bi bi-plus-square" title="Añadir"></i>
+        </button>
       </div>
     </div>
 
     <!-- Subsecciones de Educacion -->
-    <div class="row sub-seccion" *ngFor="let institution of institutions; let i=index">
+    <div class="row sub-seccion" *ngFor="let education of educations; let i=index">
       <div class="col-12 col-sm-3 logo">
-        <img src={{institution.getUrlLogo()}} alt="Institution Logo">
+        <img src={{education.logoInstitucion}} alt="Institution Logo">
       </div>
       <div class="col-10 col-sm-8">
-        <h3 class="titulo-subseccion">{{ institution.getInstitutionName() }}</h3>
-        <p class="texto-descripcion">{{ institution.getTitle() }}</p>
-        <p class="texto-descripcion">{{ institution.getPeriod() }}</p>
+        <h3 class="titulo-subseccion">{{ education.nombreInstitucion }}</h3>
+        <p class="texto-descripcion">{{ education.tituloDeEstudios }}</p>
+        <p class="texto-descripcion">Desde: {{ education.fechaInicio }}   Hasta: {{ education.fechaFin ? education.fechaFin : "Actualidad" }}</p>
       </div>
       <div class="col-2 col-sm-1 icono-ed-del" > <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-pencil" title="Edit"></i>
-        <i class="bi bi-trash" title="Delete"></i>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-educacion" (click)="openEditModal(i)">
+          <i class="bi bi-pencil" title="Edit"></i>
+        </button>
+
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-eliminar-educacion" (click)="openDeleteModal(i)">
+          <i class="bi bi-trash" title="Delete"></i>
+        </button>
+
       </div>
-      <div class="col-12" *ngIf="i < institutions.length-1">
+      <div class="col-12" *ngIf="i < educations.length-1">
         <hr>
       </div>
     </div>
+
   </div>
 
 </section>
+
+
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="modal-editar-educacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-editar-educacion" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-editar-educacion"> {{tituloModal}} </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <form [formGroup]="formEdit" enctype="multipart/form-data">
+
+          <!-- input nombre institucion [ngClass]="{ 'is-invalid': NombreInstitucion?.errors && NombreInstitucion?.touched, 'is-valid': !NombreInstitucion?.errors && NombreInstitucion?.touched }"-->
+          <div class="mb-3">
+            <label for="institucion" class="form-label">Nombre de la institución</label>
+            <input type="text" formControlName="nombreInstitucion" class="form-control" id="institucion" size="45" [value]="NombreInstitucion?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('nombreInstitucion') || (notAnEmptyField('nombreInstitucion') && NombreInstitucion?.errors), 
+                           'is-valid': notAnEmptyField('nombreInstitucion') && !NombreInstitucion?.errors }"
+            >
+            <div>
+              <!-- <p *ngIf="NombreInstitucion?.hasError('required') && valueInputEditNombreInstitucion.length == 0" class="text-danger"> -->
+              <p *ngIf="!notAnEmptyField('nombreInstitucion')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('nombreInstitucion') && NombreInstitucion?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input titulo de estudios -->
+          <!-- [ngClass]="{ 'is-invalid': TituloDeEstudios?.errors && TituloDeEstudios?.touched, 'is-valid': !TituloDeEstudios?.errors && TituloDeEstudios?.touched }" -->
+          <div class="mb-3">
+            <label for="titulo-ed" class="form-label">Título obtenido</label>
+            <input type="text" formControlName="tituloDeEstudios" class="form-control" id="titulo-ed" size="45" [value]="formEdit.get('tituloDeEstudios')"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('tituloDeEstudios') || (notAnEmptyField('tituloDeEstudios') && TituloDeEstudios?.errors),
+                           'is-valid': notAnEmptyField('tituloDeEstudios') && !TituloDeEstudios?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('tituloDeEstudios')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('tituloDeEstudios') && TituloDeEstudios?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input logo -->
+          <div class="mb-3">
+            <label for="inst-logo" class="form-label">Logo de la institución</label>
+            <input type="file" formControlName="logoInstitucion" class="form-control" id="inst-logo">
+          </div>
+
+          <!-- input fecha inicio -->
+          <!-- [ngClass]="{ 'is-invalid': FechaInicio?.errors && FechaInicio?.touched, 'is-valid': !FechaInicio?.errors && FechaInicio?.touched }" -->
+          <div class="mb-3">
+            <label for="fecha-ini-ed" class="form-label">Fecha de inicio</label>
+            <input type="text" formControlName="fechaInicio" class="form-control" id="fecha-ini-ed" placeholder="dd/mm/aaaa" size="10" [value]="formEdit.get('fechaInicio')"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('fechaInicio') || (FechaInicio?.errors  && notAnEmptyField('fechaInicio')), 
+                           'is-valid': notAnEmptyField('fechaInicio') && !FechaInicio?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('fechaInicio')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicio?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicio?.errors?.['minlength']" class="text-danger">
+                El campo no puede tener menos de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicio?.hasError('pattern')" class="text-danger">
+                Formato de fecha incorrecto!
+              </p>
+            </div>
+          </div>
+
+          <!-- input fecha fin -->
+          <!-- [ngClass]="{ 'is-invalid': FechaFin?.errors, 'is-valid': !FechaFin?.errors}" -->
+          <div class="mb-3">
+            <label for="fecha-fin-ed" class="form-label">Fecha finalización</label>
+            <input type="text" formControlName="fechaFin" class="form-control" id="fecha-fin-ed" placeholder="dd/mm/aaaa" size="10" [value]="formEdit.get('fechaFin')"
+              [ngClass]="{ 'is-invalid': notAnEmptyField('fechaFin') && FechaFin?.errors, 
+                           'is-valid': (notAnEmptyField('fechaFin') && !FechaFin?.errors) || !notAnEmptyField('fechaFin')}"
+            >
+            <div class="form-text">Dejar el campo vacío implica que los estudios no han terminado</div>
+            <div>
+              <p *ngIf="notAnEmptyField('fechaFin') && FechaFin?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 10 caracteres!
+              </p>
+              <!-- <p *ngIf="FechaFin?.errors?.['minlength']" class="text-danger">
+                El campo no puede tener menos de 10 caracteres!
+              </p> -->
+              <p *ngIf="notAnEmptyField('fechaFin') && FechaFin?.hasError('pattern')" class="text-danger">
+                Formato de fecha incorrecto!
+              </p>
+            </div>
+            <div *ngIf="erroresFechas.length > 0">
+              <p class="text-danger"> {{ erroresFechas[0] }} </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning" id="btn-save-changes-education" 
+              [disabled]="!enableSaveChangesButton()" 
+              (click)="saveChangesEducation()"
+            >
+              Guardar Cambios
+            </button>
+            <button type="submit" class="btn btn-warning" id="btn-save-education" 
+              [disabled]="!enableSaveChangesButton()" 
+              (click)="saveEducation()"
+            >
+              Guardar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer" *ngIf="responseStatus > 0">
+        <p class="text-success"> Datos guardados. </p>
+      </div>
+      <div class="modal-footer" *ngIf="responseStatus < 0">
+        <p class="text-danger"> No se pudieron guardar los datos. </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-eliminar-educacion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-eliminar-educacion" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-eliminar-educacion">Eliminar Educacion</h1>
+      </div>
+
+      <div class="modal-body">
+        <p id="ask-delete-edu" name="ask-delete-edu">
+          ¿Está seguro de eliminar la educación?
+        </p>
+        <p id="delete-edu-success">
+          Educación eliminada
+        </p>
+        <p id="delete-edu-error">
+          No se pudo eliminar la educación
+        </p>
+      </div>
+
+      <div class="modal-footer" id="confirm-buttons" name="ask-delete-edu">
+        <button type="button" class="btn btn-success" (click)="deleteEducation()">Sí</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+      </div>
+      <div class="modal-footer" id="close-btn">
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>

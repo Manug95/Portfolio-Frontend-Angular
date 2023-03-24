@@ -59,6 +59,10 @@ body {
     font-size: 20px;
 }
 
+.icono-add i {
+    color:white;
+}
+
 .bi:hover {
     font-size: 23px;
     color: #ffc107;
