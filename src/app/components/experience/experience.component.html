@@ -7,23 +7,32 @@
         <h2 class="titulo-seccion">Experiencia</h2>
       </div>
       <div class="col-2 col-sm-2 icono-add" > <!-- antes era col-4 col-sm-6 --> <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-plus-square" title="Añadir"></i>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-experiencia" (click)="openAddExperienceModal()">
+          <i class="bi bi-plus-square" title="Añadir"></i>
+        </button>
       </div>
     </div>
     
     <!-- Subsecciones de Experiencia -->
     <div class="row sub-seccion" *ngFor="let experience of experiences; let i=index">
       <div class="col-12 col-sm-3 logo">
-        <img src={{experience.getUrlLogo()}} alt="Institution Logo">
+        <img src={{experience.imgLogo}} alt="Institution Logo">
       </div>
       <div class="col-10 col-sm-8">
-        <h3 class="titulo-subseccion">{{ experience.getJob() }}</h3>
-        <p class="texto-descripcion">{{ experience.getDescription() }}</p>
-        <p class="texto-descripcion">{{ experience.getPeriod() }}</p>
+        <h3 class="titulo-subseccion">{{ experience.nombreExperiencia }}</h3>
+        <p class="texto-descripcion">{{ experience.descripcion }}</p>
+        <p class="texto-descripcion"> Desde: {{ formateDate(experience.fechaInicio) }}   Hasta: {{experience.fechaFin ? formateDate(experience.fechaFin) : 'Actualidad'}} </p>
       </div>
       <div class="col-2 col-sm-1 icono-ed-del" > <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-pencil" title="Edit"></i>
-        <i class="bi bi-trash" title="Delete"></i>
+
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-experiencia" (click)="openEditExperienceModal(i)">
+          <i class="bi bi-pencil" title="Edit"></i>
+        </button>
+
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-eliminar-experiencia" (click)="openDeleteExperienceModal(i)">
+          <i class="bi bi-trash" title="Delete"></i>
+        </button>
+
       </div>
       <div class="col-12" *ngIf="i < experiences.length-1">
         <hr>
@@ -33,3 +42,185 @@
   </div>
 
 </section>
+
+<div class="modal fade" id="modal-editar-experiencia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-editar-experiencia" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-editar-experiencia"> {{tituloModal}} </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <form [formGroup]="formExperiences" enctype="multipart/form-data">
+
+          <!-- input nombreExperiencia -->
+          <div class="mb-3">
+            <label for="nombre-exp" class="form-label">Experiencia</label>
+            <input type="text" formControlName="nombreExperiencia" class="form-control" id="nombre-exp" size="45" [value]="NombreExperiencia?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('nombreExperiencia') || (notAnEmptyField('nombreExperiencia') && NombreExperiencia?.errors), 
+                           'is-valid': notAnEmptyField('nombreInstitucion') && !NombreExperiencia?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('nombreExperiencia')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('nombreExperiencia') && NombreExperiencia?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input descripcion -->
+          <div class="mb-3">
+            <label for="descripcion-exp" class="form-label">Descripción</label>
+            <textarea formControlName="descripcion" class="form-control" id="descripcion-exp" style="height: 100px" [value]="Descripcion?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('descripcion') || (notAnEmptyField('descripcion') && Descripcion?.errors),
+                           'is-valid': notAnEmptyField('descripcion') && !Descripcion?.errors }"
+            >
+            </textarea>
+            <div>
+              <p *ngIf="!notAnEmptyField('descripcion')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('descripcion') && Descripcion?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 255 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input fecha inicio -->
+          <div class="mb-3">
+            <label for="fecha-ini-exp" class="form-label">Fecha de inicio</label>
+            <input type="text" formControlName="fechaInicio" class="form-control" id="fecha-ini-exp" placeholder="DD/MM/AAAA" size="10" [value]="FechaInicio?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('fechaInicio') || (FechaInicio?.errors  && notAnEmptyField('fechaInicio')), 
+                           'is-valid': notAnEmptyField('fechaInicio') && !FechaInicio?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('fechaInicio')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicio?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicio?.errors?.['minlength']" class="text-danger">
+                El campo no puede tener menos de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicio?.hasError('pattern')" class="text-danger">
+                Formato de fecha incorrecto!
+              </p>
+            </div>
+          </div>
+
+          <!-- input fecha fin -->
+          <div class="mb-3">
+            <label for="fecha-fin-exp" class="form-label">Fecha finalización</label>
+            <input type="text" formControlName="fechaFin" class="form-control" id="fecha-fin-exp" placeholder="DD/MM/AAAA" size="10" [value]="FechaFin?.value"
+              [ngClass]="{ 'is-invalid': notAnEmptyField('fechaFin') && FechaFin?.errors, 
+                           'is-valid': (notAnEmptyField('fechaFin') && !FechaFin?.errors) || !notAnEmptyField('fechaFin')}"
+            >
+            <div class="form-text">Dejar el campo vacío implica que los estudios no han terminado</div>
+            <div>
+              <p *ngIf="notAnEmptyField('fechaFin') && FechaFin?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaFin') && FechaFin?.hasError('pattern')" class="text-danger">
+                Formato de fecha incorrecto!
+              </p>
+            </div>
+            <div *ngIf="erroresFechas.length > 0">
+              <p class="text-danger"> {{ erroresFechas[0] }} </p>
+            </div>
+          </div>
+
+          <!-- input logo -->
+          <div class="mb-3">
+            <label for="exp-logo" class="form-label">Logo de la experiencia</label>
+            <input type="file" formControlName="imgLogo" class="form-control" id="exp-logo">
+          </div>
+
+          <!-- input tipo experiencia -->
+          <div class="mb-3">
+            <label for="tipo-exp" class="form-label">Tipo de Experiencia</label>
+            <input type="text" formControlName="tipoExperiencia" class="form-control" id="tipo-exp" size="45" [value]="TipoExperiencia?.value" placeholder="PartTime / Fulltime / etc"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('tipoExperiencia') || (notAnEmptyField('tipoExperiencia') && TipoExperiencia?.errors), 
+                           'is-valid': notAnEmptyField('tipoExperiencia') && !TipoExperiencia?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('tipoExperiencia')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('tipoExperiencia') && TipoExperiencia?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning" id="btn-save-changes-experience" 
+              [disabled]="!enableSaveExperienceChangesButton() && responseStatus <= 0" 
+              (click)="saveChangesExperience()"
+            >
+              Guardar Cambios
+            </button>
+            <button type="submit" class="btn btn-warning" id="btn-save-experience" 
+              [disabled]="!enableSaveExperienceChangesButton() && responseStatus <= 0" 
+              (click)="saveExperience()"
+            >
+              Guardar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer" *ngIf="responseStatus > 0">
+        <p class="text-success"> Datos guardados. </p>
+      </div>
+      <div class="modal-footer" *ngIf="responseStatus < 0">
+        <p class="text-danger"> No se pudieron guardar los datos. </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-eliminar-experiencia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-eliminar-experiencia" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-eliminar-experiencia">Eliminar Experiencia</h1>
+      </div>
+
+      <div class="modal-body">
+        <p id="ask-delete-exp" name="ask-delete-exp" [ngClass]="{ 'show-item': responseStatus == 0, 'hide-item': responseStatus != 0 }">
+          ¿Está seguro de eliminar la experiencia?
+        </p>
+        <p id="delete-exp-success" class="text-success" [ngClass]="{ 'show-item': responseStatus > 0, 'hide-item': responseStatus <= 0 }">
+          Experiencia eliminada
+        </p>
+        <p id="delete-exp-error" class="text-danger" [ngClass]="{ 'show-item': responseStatus < 0, 'hide-item': responseStatus >= 0 }">
+          No se pudo eliminar la experiencia
+        </p>
+      </div>
+
+      <div class="modal-footer" id="confirm-buttons">
+        <button type="button" class="btn btn-success" id="btn-si-delete-exp" (click)="deleteExperience()" [ngClass]="{ 'show-item': responseStatus == 0, 'hide-item': responseStatus != 0 }">
+          Sí
+        </button>
+        <button type="button" class="btn btn-danger" id="btn-no-delete-exp" data-bs-dismiss="modal" [ngClass]="{ 'show-item': responseStatus == 0, 'hide-item': responseStatus != 0 }">
+          No
+        </button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="close-delete-exp-btn" [ngClass]="{ 'show-item': responseStatus != 0, 'hide-item': responseStatus == 0 }" (click)="closeModal()">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

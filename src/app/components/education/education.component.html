@@ -190,23 +190,27 @@
       </div>
 
       <div class="modal-body">
-        <p id="ask-delete-edu" name="ask-delete-edu">
+        <p id="ask-delete-edu" name="ask-delete-edu" [ngClass]="{ 'show-item': responseStatus == 0, 'hide-item': responseStatus != 0 }">
           ¿Está seguro de eliminar la educación?
         </p>
-        <p id="delete-edu-success">
+        <p id="delete-edu-success" class="text-success" [ngClass]="{ 'show-item': responseStatus > 0, 'hide-item': responseStatus <= 0 }">
           Educación eliminada
         </p>
-        <p id="delete-edu-error">
+        <p id="delete-edu-error" class="text-danger" [ngClass]="{ 'show-item': responseStatus < 0, 'hide-item': responseStatus >= 0 }">
           No se pudo eliminar la educación
         </p>
       </div>
 
       <div class="modal-footer" id="confirm-buttons" name="ask-delete-edu">
-        <button type="button" class="btn btn-success" (click)="deleteEducation()">Sí</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
-      </div>
-      <div class="modal-footer" id="close-btn">
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" (click)="deleteEducation()" [ngClass]="{ 'show-item': responseStatus == 0, 'hide-item': responseStatus != 0 }">
+          Sí
+        </button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" [ngClass]="{ 'show-item': responseStatus == 0, 'hide-item': responseStatus != 0 }">
+          No
+        </button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" [ngClass]="{ 'show-item': responseStatus != 0, 'hide-item': responseStatus == 0 }" (click)="closeModal()">
+          Cerrar
+        </button>
       </div>
 
     </div>

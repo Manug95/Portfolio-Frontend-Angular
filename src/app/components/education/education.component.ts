@@ -72,10 +72,8 @@ export class EducationComponent {
 
     this.tituloModal = "Editar Educación";
 
-    document.getElementById("btn-save-education")?.classList.remove("show-item");
-    document.getElementById("btn-save-education")?.classList.add("hide-item");
-    document.getElementById("btn-save-changes-education")?.classList.remove("hide-item");
-    document.getElementById("btn-save-changes-education")?.classList.add("show-item");
+    this.showItemById("btn-save-changes-education");
+    this.hideItemById("btn-save-education");
 
     //seteo los values de los form control
     this.formEdit.get("nombreInstitucion")?.setValue(edu.nombreInstitucion);
@@ -165,10 +163,8 @@ export class EducationComponent {
     this.formEdit.get("fechaInicio")?.setValue("");
     this.formEdit.get("fechaFin")?.setValue("");
 
-    document.getElementById("btn-save-education")?.classList.remove("hide-item");
-    document.getElementById("btn-save-education")?.classList.add("show-item");
-    document.getElementById("btn-save-changes-education")?.classList.remove("show-item");
-    document.getElementById("btn-save-changes-education")?.classList.add("hide-item");
+    this.showItemById("btn-save-education");
+    this.hideItemById("btn-save-changes-education");
   }
 
   saveEducation() {
@@ -283,6 +279,16 @@ export class EducationComponent {
     return this.formEdit.get(field)?.value.length > 0 && this.formEdit.get(field)?.value.trim().length > 0;
   }
 
+  private showItemById(id: string) {
+    document.getElementById(id)?.classList.remove("hide-item");
+    document.getElementById(id)?.classList.add("show-item");
+  }
+
+  private hideItemById(id: string) {
+    document.getElementById(id)?.classList.remove("show-item");
+    document.getElementById(id)?.classList.add("hide-item");
+  }
+
   //-----------------------------------------------------------------FUNCIONES PARA DELETE MODAL---------------------------------------------------------------------
 
   deleteEducation() {
@@ -291,20 +297,10 @@ export class EducationComponent {
     this.portfolioService.eliminarEducacion(idEdu).subscribe(resp => {
 
       this.responseStatus = resp;
-      
-      document.getElementsByName("ask-delete-edu").forEach(e => e.classList.remove("show-item"));
-      document.getElementsByName("ask-delete-edu").forEach(e => e.classList.add("hide-item"));
-      document.getElementById("close-btn")?.classList.remove("hide-item");
-      document.getElementById("close-btn")?.classList.add("show-item");
 
       if (this.responseStatus > 0) {
         this.educations = this.educations.filter(x => x.idEducacion != idEdu);
 
-        document.getElementById("delete-edu-success")?.classList.remove("hide-item");
-        document.getElementById("delete-edu-success")?.classList.add("show-item");
-      } else {
-        document.getElementById("delete-edu-error")?.classList.remove("hide-item");
-        document.getElementById("delete-edu-error")?.classList.add("show-item");
       }
 
     });
@@ -313,18 +309,6 @@ export class EducationComponent {
   openDeleteModal(i: number) {
     this.responseStatus = 0;
     this.educacionSeleccionada = i;
-
-    document.getElementById("delete-edu-success")?.classList.remove("show-item");
-    document.getElementById("delete-edu-success")?.classList.add("hide-item");
-    document.getElementById("delete-edu-error")?.classList.remove("show-item");
-    document.getElementById("delete-edu-error")?.classList.add("hide-item");
-
-    document.getElementsByName("ask-delete-edu").forEach(e => e.classList.remove("hide-item"));
-    document.getElementsByName("ask-delete-edu").forEach(e => e.classList.add("show-item"));
-
-    document.getElementById("close-btn")?.classList.remove("show-item");
-    document.getElementById("close-btn")?.classList.add("hide-item");
-    
   }
 
 }

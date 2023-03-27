@@ -74,6 +74,14 @@ body {
     border: none;
 }
 
+.hide-item {
+    display: none !important;
+}
+
+.show-item {
+    display: block !important;
+}
+
 /* Seccion Educacion ----------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
 .logo img {

@@ -34,7 +34,11 @@ export class PortfolioService {
     return this.httpClient.get<any>(this.url + `personas/traer?id=${id}`);
   }
 
-  //-------------------sobre mi-------------------------------------
+  getIdPersona() {
+    return this.autenticationService.getUserAutenticated().idPersona;
+  }
+
+  //---------------------------------------------sobre mi-------------------------------------
 
   editarSobreMi(value: string): Observable<any> {
     let persona = JSON.parse( sessionStorage.getItem("personaPortfolio") || "{}" );
@@ -42,11 +46,11 @@ export class PortfolioService {
     return this.httpClient.put(this.url + `personas/editar`, persona, {observe: "response"});
   }
 
-  //-------------------educacion------------------------------------
+  //----------------------------------------------educacion------------------------------------
 
   editarEducacion(educacionEditada: any): Observable<any> {
 
-    const id = this.autenticationService.getUserAutenticated().idPersona;
+    const id = this.getIdPersona();
 
     return this.httpClient.put(this.url + `educacion/editar?idPersona=${id}`, educacionEditada);
 
@@ -54,7 +58,7 @@ export class PortfolioService {
 
   agregarEducacion(nuevaEducacion: any): Observable<any> {
 
-    const id = this.autenticationService.getUserAutenticated().idPersona;
+    const id = this.getIdPersona();
 
     return this.httpClient.post(this.url + `educacion/guardar?idPersona=${id}`, nuevaEducacion);
 
@@ -62,9 +66,29 @@ export class PortfolioService {
 
   eliminarEducacion(idEdu: number): Observable<any> {
 
-    const id = this.autenticationService.getUserAutenticated().idPersona;
+    const id = this.getIdPersona();
 
     return this.httpClient.delete(this.url + `educacion/eliminar?idEducacion=${idEdu}&idPersona=${id}`);
+
+  }
+
+  //-----------------------------------------------experiencia------------------------------------
+
+  editarExperiencia(experienciaEditada: any): Observable<any> {
+
+    return this.httpClient.put(this.url + `experiencias/editar`, experienciaEditada);
+
+  }
+
+  agregarExperiencia(nuevaExperiencia: any): Observable<any> {
+
+    return this.httpClient.post(this.url + `experiencias/guardar`, nuevaExperiencia);
+
+  }
+
+  eliminarExperiencia(idExp: number): Observable<any> {
+
+    return this.httpClient.delete(this.url + `experiencias/eliminar?idExp=${idExp}`);
 
   }
 
