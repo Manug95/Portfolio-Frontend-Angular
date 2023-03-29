@@ -1,30 +1,228 @@
 <section class="proyectos">
+
   <div class="seccion container">
+
     <div class="row seccion-oscura">
       <div class="col-10 col-sm-10"> <!-- antes era col-8 col-sm-6 -->
         <h2 class="titulo-seccion">Proyectos</h2>
       </div>
       <div class="col-2 col-sm-2 icono-add" > <!-- antes era col-4 col-sm-6 --> <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-plus-square" title="Add"></i>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-proyecto" (click)="openAddProyectModal()">
+          <i class="bi bi-plus-square" title="Añadir"></i>
+        </button>
       </div>
     </div>
 
+    <!-- Subsecciones de Proyectos -->
     <div class="row sub-seccion" *ngFor="let proyect of proyects; let i=index">
       <div class="col-10 col-sm-11">
         <h4 class="proyecto">
-          {{ proyect.getProyectName() }}
-          <a href={{proyect.getLink()}} target="_blank" rel="noopener noreferrer">
+          {{ proyect.nombreProyecto }}
+          <a href="{{ proyect.urlRepositorio }}" target="_blank" rel="noopener noreferrer">
             <i class="bi bi-github"></i>
           </a>
         </h4>
-        <p>{{ proyect.getDescription() }}</p>
-        <p>{{ proyect.getPeriod() }}</p>
+        <p>{{ proyect.descripcion }}</p>
+        <p> Desde: {{ formateDate(proyect.fechaInicio) }}   Hasta: {{proyect.fechaFin ? formateDate(proyect.fechaFin) : 'Actualidad'}} </p>
       </div>
       <div class="col-2 col-sm-1 icono-ed-del" > <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-pencil" title="Edit"></i>
-        <i class="bi bi-trash" title="Delete"></i>
+
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-proyecto" (click)="openEditProyectModal(i)">
+          <i class="bi bi-pencil" title="Edit"></i>
+        </button>
+
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-eliminar-proyecto" (click)="openDeleteProyectModal(i)">
+          <i class="bi bi-trash" title="Delete"></i>
+        </button>
+
       </div>
+
+      <div class="col-12" *ngIf="i < proyects.length-1">
+        <hr>
+      </div>
+
     </div>
 
   </div>
+
 </section>
+
+<!-- Modal Add/Edit -->
+<div class="modal fade" id="modal-editar-proyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-editar-proyecto" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-editar-proyecto"> {{tituloModal}} </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <form [formGroup]="formProyects" enctype="multipart/form-data">
+
+          <!-- input nombreProyecto -->
+          <div class="mb-3">
+            <label for="nombre-proy" class="form-label">Nombre del Proyecto</label>
+            <input type="text" formControlName="nombreProyecto" class="form-control" id="nombre-proy" size="45" [value]="NombreProyecto?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('nombreProyecto') || (notAnEmptyField('nombreProyecto') && NombreProyecto?.errors), 
+                           'is-valid': notAnEmptyField('nombreProyecto') && !NombreProyecto?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('nombreProyecto')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('nombreProyecto') && NombreProyecto?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input descripcion -->
+          <div class="mb-3">
+            <label for="descripcion-proy" class="form-label">Descripción</label>
+            <textarea formControlName="descripcion" class="form-control" id="descripcion-proy" style="height: 100px" [value]="DescripcionProy?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('descripcion') || (notAnEmptyField('descripcion') && DescripcionProy?.errors),
+                           'is-valid': notAnEmptyField('descripcion') && !DescripcionProy?.errors }"
+            >
+            </textarea>
+            <div>
+              <p *ngIf="!notAnEmptyField('descripcion')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('descripcion') && DescripcionProy?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 255 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input fecha inicio -->
+          <div class="mb-3">
+            <label for="fecha-ini-proy" class="form-label">Fecha de inicio</label>
+            <input type="text" formControlName="fechaInicio" class="form-control" id="fecha-ini-proy" placeholder="DD/MM/AAAA" size="10" [value]="FechaInicioProy?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('fechaInicio') || (FechaInicioProy?.errors  && notAnEmptyField('fechaInicio')), 
+                           'is-valid': notAnEmptyField('fechaInicio') && !FechaInicioProy?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('fechaInicio')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicioProy?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicioProy?.errors?.['minlength']" class="text-danger">
+                El campo no puede tener menos de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaInicio') && FechaInicioProy?.hasError('pattern')" class="text-danger">
+                Formato de fecha incorrecto!
+              </p>
+            </div>
+          </div>
+
+          <!-- input fecha fin -->
+          <div class="mb-3">
+            <label for="fecha-fin-proy" class="form-label">Fecha finalización</label>
+            <input type="text" formControlName="fechaFin" class="form-control" id="fecha-fin-proy" placeholder="DD/MM/AAAA" size="10" [value]="FechaFinProy?.value"
+              [ngClass]="{ 'is-invalid': notAnEmptyField('fechaFin') && FechaFinProy?.errors, 
+                           'is-valid': (notAnEmptyField('fechaFin') && !FechaFinProy?.errors) || !notAnEmptyField('fechaFin')}"
+            >
+            <div class="form-text">Dejar el campo vacío implica que el proyecto no ha terminado</div>
+            <div>
+              <p *ngIf="notAnEmptyField('fechaFin') && FechaFinProy?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 10 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('fechaFin') && FechaFinProy?.hasError('pattern')" class="text-danger">
+                Formato de fecha incorrecto!
+              </p>
+            </div>
+            <div *ngIf="erroresFechas.length > 0">
+              <p class="text-danger"> {{ erroresFechas[0] }} </p>
+            </div>
+          </div>
+
+          <!-- input urlRepositorio -->
+          <div class="mb-3">
+            <label for="url-repo" class="form-label">URL del Repositorio</label>
+            <input type="text" formControlName="urlRepositorio" class="form-control" id="url-repo" size="45" [value]="UrlRepositorio?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('urlRepositorio') || (notAnEmptyField('urlRepositorio') && UrlRepositorio?.errors) || (notAnEmptyField('urlRepositorio') && !validateUrl(UrlRepositorio?.value)), 
+                           'is-valid': (notAnEmptyField('urlRepositorio') && !UrlRepositorio?.errors) && (notAnEmptyField('urlRepositorio') && validateUrl(UrlRepositorio?.value)) }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('urlRepositorio')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('urlRepositorio') && UrlRepositorio?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 255 caracteres!
+              </p>
+              <p *ngIf="notAnEmptyField('urlRepositorio') && !validateUrl(UrlRepositorio?.value)" class="text-danger">
+                La URL no es válida!
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning" id="btn-save-changes-proyect" 
+              [disabled]="!enableSaveProyectChangesButton() && responseStatusProyecto <= 0" 
+              (click)="saveChangesProyect()"
+            >
+              Guardar Cambios
+            </button>
+            <button type="submit" class="btn btn-warning" id="btn-save-proyect" 
+              [disabled]="!enableSaveProyectChangesButton() && responseStatusProyecto <= 0" 
+              (click)="saveProyect()"
+            >
+              Guardar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer" *ngIf="responseStatusProyecto > 0">
+        <p class="text-success"> Datos guardados. </p>
+      </div>
+      <div class="modal-footer" *ngIf="responseStatusProyecto < 0">
+        <p class="text-danger"> No se pudieron guardar los datos. </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-eliminar-proyecto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-eliminar-proyecto" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-eliminar-proyecto">Eliminar Proyecto</h1>
+      </div>
+
+      <div class="modal-body">
+        <p id="ask-delete-proy" name="ask-delete-proy" [ngClass]="{ 'show-item': responseStatusProyecto == 0, 'hide-item': responseStatusProyecto != 0 }">
+          ¿Está seguro de eliminar el Proyecto?
+        </p>
+        <p id="delete-proy-success" class="text-success" [ngClass]="{ 'show-item': responseStatusProyecto > 0, 'hide-item': responseStatusProyecto <= 0 }">
+          Proyecto eliminado
+        </p>
+        <p id="delete-proy-error" class="text-danger" [ngClass]="{ 'show-item': responseStatusProyecto < 0, 'hide-item': responseStatusProyecto >= 0 }">
+          No se pudo eliminar el Proyecto
+        </p>
+      </div>
+
+      <div class="modal-footer" id="confirm-buttons">
+        <button type="button" class="btn btn-success" id="btn-si-delete-proy" (click)="deleteProyect()" [ngClass]="{ 'show-item': responseStatusProyecto == 0, 'hide-item': responseStatusProyecto != 0 }">
+          Sí
+        </button>
+        <button type="button" class="btn btn-danger" id="btn-no-delete-proy" data-bs-dismiss="modal" [ngClass]="{ 'show-item': responseStatusProyecto == 0, 'hide-item': responseStatusProyecto != 0 }">
+          No
+        </button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="close-delete-proy-btn" [ngClass]="{ 'show-item': responseStatusProyecto != 0, 'hide-item': responseStatusProyecto == 0 }" (click)="closeModal()">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

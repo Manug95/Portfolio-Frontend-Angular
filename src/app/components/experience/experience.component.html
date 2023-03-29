@@ -121,7 +121,7 @@
               [ngClass]="{ 'is-invalid': notAnEmptyField('fechaFin') && FechaFin?.errors, 
                            'is-valid': (notAnEmptyField('fechaFin') && !FechaFin?.errors) || !notAnEmptyField('fechaFin')}"
             >
-            <div class="form-text">Dejar el campo vacío implica que los estudios no han terminado</div>
+            <div class="form-text">Dejar el campo vacío implica que la experiencia no ha terminado</div>
             <div>
               <p *ngIf="notAnEmptyField('fechaFin') && FechaFin?.errors?.['maxlength']" class="text-danger">
                 El campo no puede tener más de 10 caracteres!

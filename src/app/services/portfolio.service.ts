@@ -92,6 +92,32 @@ export class PortfolioService {
 
   }
 
+  //-----------------------------------------------experiencia------------------------------------
+
+  agregarProyecto(nuevoProyecto: any): Observable<any> {
+
+    const id = this.getIdPersona();
+
+    return this.httpClient.post(this.url + `proyectos/guardar?idPersona=${id}`, nuevoProyecto);
+
+  }
+
+  editarProyecto(proyectoEditado: any): Observable<any> {
+
+    const id = this.getIdPersona();
+
+    return this.httpClient.put(this.url + `proyectos/editar?idPersona=${id}`, proyectoEditado);
+
+  }
+
+  eliminarProyecto(idProy: number): Observable<any> {
+
+    const id = this.getIdPersona();
+
+    return this.httpClient.delete(this.url + `proyectos/eliminar?idProyecto=${idProy}&idPersona=${id}`);
+
+  }
+
 
 
 
