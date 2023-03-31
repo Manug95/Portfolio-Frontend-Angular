@@ -92,7 +92,7 @@ export class PortfolioService {
 
   }
 
-  //-----------------------------------------------experiencia------------------------------------
+  //-----------------------------------------------proyectos------------------------------------
 
   agregarProyecto(nuevoProyecto: any): Observable<any> {
 
@@ -115,6 +115,32 @@ export class PortfolioService {
     const id = this.getIdPersona();
 
     return this.httpClient.delete(this.url + `proyectos/eliminar?idProyecto=${idProy}&idPersona=${id}`);
+
+  }
+
+  //-----------------------------------------------proyectos------------------------------------
+
+  agregarHabilidad(nuevaHabilidad: any): Observable<any> {
+
+    const id = this.getIdPersona();
+
+    return this.httpClient.post(this.url + `habilidades/guardar?idPersona=${id}`, nuevaHabilidad);
+
+  }
+
+  editarHabilidad(habilidadEditada: any): Observable<any> {
+
+    const id = this.getIdPersona();
+
+    return this.httpClient.put(this.url + `habilidades/editar?idPersona=${id}`, habilidadEditada);
+
+  }
+
+  eliminarHabilidad(idSkill: number): Observable<any> {
+
+    const id = this.getIdPersona();
+
+    return this.httpClient.delete(this.url + `habilidades/eliminar?idHabilidad=${idSkill}&idPersona=${id}`);
 
   }
 

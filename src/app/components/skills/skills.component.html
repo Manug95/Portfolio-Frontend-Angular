@@ -7,7 +7,9 @@
         <h2 class="titulo-seccion">Hard & Soft Skills</h2>
       </div>
       <div class="col-2 col-sm-2 icono-add" > <!-- antes era col-4 col-sm-6 --> <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-plus-square" title="Add"></i>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-habilidad" (click)="openAddSkillModal()">
+          <i class="bi bi-plus-square" title="Añadir"></i>
+        </button>
       </div>
     </div>
 
@@ -19,15 +21,19 @@
        [ngClass]="!esLaUltimaHabilidad(i) ? 'col-sm-6' : ''"
       >
         <h4>
-          {{skill.getSkillName()}}
+          {{skill.nombreHabilidad}}
           <span class="icono-ed-del-chart" > <!-- *ngIf="loginStatus" -->
-            <i class="bi bi-pencil" title="Edit"></i>
-            <i class="bi bi-trash" title="Delete"></i>
+            <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-habilidad" (click)="openEditSkillModal(i)">
+              <i class="bi bi-pencil" title="Edit"></i>
+            </button>
+            <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-eliminar-habilidad" (click)="openDeleteSkillModal(i)">
+              <i class="bi bi-trash" title="Delete"></i>
+            </button>
           </span>
         </h4>
 
         <div>
-          <app-pie-chart [skill]="skill.getSkillName()" [progress]="skill.getProgress()" [i]="i"></app-pie-chart>
+          <app-pie-chart [skill]="skill.nombreHabilidad" [progress]="skill.progreso" [i]="i"></app-pie-chart>
         </div>
 
         <div class="circulito-container">
@@ -45,3 +51,139 @@
   </div>
 
 </section>
+
+<!-- Modal Add/Edit -->
+<div class="modal fade" id="modal-editar-habilidad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-editar-habilidad" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-editar-habilidad"> {{tituloModal}} </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <form [formGroup]="formSkills">
+
+          <!-- input nombreHabilidad -->
+          <div class="mb-3">
+            <label for="nombre-skill" class="form-label">Habilidad</label>
+            <input type="text" formControlName="nombreHabilidad" class="form-control" id="nombre-skill" size="45" [value]="NombreHabilidad?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('nombreHabilidad') || (notAnEmptyField('nombreHabilidad') && NombreHabilidad?.errors), 
+                           'is-valid': notAnEmptyField('nombreHabilidad') && !NombreHabilidad?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('nombreHabilidad')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('nombreHabilidad') && NombreHabilidad?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input tipoHabilidad -->
+          <div class="mb-3">
+            <label for="tipo-Habilidad" class="form-label">Tipo de Habilidad</label>
+            <input type="text" formControlName="tipoHabilidad" class="form-control" id="tipo-Habilidad" size="45" [value]="TipoHabilidad?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('tipoHabilidad') || (notAnEmptyField('tipoHabilidad') && TipoHabilidad?.errors), 
+                           'is-valid': notAnEmptyField('tipoHabilidad') && !TipoHabilidad?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('tipoHabilidad')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('tipoHabilidad') && TipoHabilidad?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input progreso -->
+          <div class="mb-3">
+            <label for="progreso-hab" class="form-label">Progreso</label>
+            <input type="number" formControlName="progreso" class="form-control" id="progreso-hab" size="45" [value]="Progreso?.value"
+              [ngClass]="{ 'is-invalid': Progreso?.errors, 
+                           'is-valid': !Progreso?.errors }"
+            >
+            <div>
+              <p *ngIf="Progreso?.hasError('required')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="!Progreso?.hasError('required') && Progreso?.errors?.['max']" class="text-danger">
+                El progreso no puede ser mayor que 100!
+              </p>
+              <p *ngIf="!Progreso?.hasError('required') && Progreso?.errors?.['min']" class="text-danger">
+                El progreso no puede ser negativo!
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning" id="btn-save-changes-skill" 
+              [disabled]="!enableSaveSkillChangesButton() && responseStatusHabilidad <= 0" 
+              (click)="saveChangesSkill()"
+            >
+              Guardar Cambios
+            </button>
+            <button type="submit" class="btn btn-warning" id="btn-save-skill" 
+              [disabled]="!enableSaveSkillChangesButton() && responseStatusHabilidad <= 0" 
+              (click)="saveSkill()"
+            >
+              Guardar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer" *ngIf="responseStatusHabilidad > 0">
+        <p class="text-success"> Datos guardados. </p>
+      </div>
+      <div class="modal-footer" *ngIf="responseStatusHabilidad < 0">
+        <p class="text-danger"> No se pudieron guardar los datos. </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-eliminar-habilidad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-eliminar-habilidad" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-eliminar-habilidad">Eliminar Habilidad</h1>
+      </div>
+
+      <div class="modal-body">
+        <p id="ask-delete-skill" name="ask-delete-skill" [ngClass]="{ 'show-item': responseStatusHabilidad == 0, 'hide-item': responseStatusHabilidad != 0 }">
+          ¿Está seguro de eliminar la Habilidad?
+        </p>
+        <p id="delete-skill-success" class="text-success" [ngClass]="{ 'show-item': responseStatusHabilidad > 0, 'hide-item': responseStatusHabilidad <= 0 }">
+          Habilidad eliminada
+        </p>
+        <p id="delete-skill-error" class="text-danger" [ngClass]="{ 'show-item': responseStatusHabilidad < 0, 'hide-item': responseStatusHabilidad >= 0 }">
+          No se pudo eliminar la Habilidad
+        </p>
+      </div>
+
+      <div class="modal-footer" id="confirm-buttons">
+        <button type="button" class="btn btn-success" id="btn-si-delete-skill" (click)="deleteSkill()" [ngClass]="{ 'show-item': responseStatusHabilidad == 0, 'hide-item': responseStatusHabilidad != 0 }">
+          Sí
+        </button>
+        <button type="button" class="btn btn-danger" id="btn-no-delete-skill" data-bs-dismiss="modal" [ngClass]="{ 'show-item': responseStatusHabilidad == 0, 'hide-item': responseStatusHabilidad != 0 }">
+          No
+        </button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="close-delete-skill-btn" [ngClass]="{ 'show-item': responseStatusHabilidad != 0, 'hide-item': responseStatusHabilidad == 0 }" (click)="closeModal()">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
