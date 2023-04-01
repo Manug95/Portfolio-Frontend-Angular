@@ -17,7 +17,6 @@ export class SkillsComponent {
   formSkills: FormGroup;
 
   tituloModal:string = "";
-  erroresFechas: string[] = [];
   responseStatusHabilidad: number = 0;
   habilidadSeleccionada: number = -1;
 
@@ -37,7 +36,7 @@ export class SkillsComponent {
     this.portfolioService.onLoginChange.subscribe({
       next: (data) => {
         if (Object.entries(data).length > 0) {
-          this.skills = data.habilidades.filter((h: { tipoHabilidad: string; }) => h.tipoHabilidad.toLowerCase() != "languaje");
+          this.skills = data.habilidades.filter((h: { tipoHabilidad: string; }) => h.tipoHabilidad.toLowerCase() != "language");
         }
       }
     });

@@ -5,25 +5,149 @@
         <h2 class="titulo-seccion">Idiomas</h2>
       </div>
       <div class="col-2 col-sm-2 icono-add" > <!-- antes era col-4 col-sm-6 --> <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-plus-square" title="Add"></i>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-idioma" (click)="openAddLanguageModal()">
+          <i class="bi bi-plus-square" title="Añadir"></i>
+        </button>
       </div>
     </div>
 
     <div class="row sub-seccion" *ngFor="let language of languages; let i=index">
       <div class="col-4">
-        <h4 class="idioma">{{ language.getLang() }}</h4>
+        <h4 class="idioma">{{ language.nombreHabilidad }}</h4>
       </div>
       <div class="col-6">
-        <div class="progress">
-          <div class="progress-bar w-50" role="progressbar" aria-label="Basic example" 
-          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">{{ language.getProgress() }}%</div>
+        <div class="progress"><!-- style=`width: {{language.progreso}}%;` -->
+          <div class="progress-bar" role="progressbar" aria-label="Basic example" [ngStyle]="{'width.%': language.progreso}"
+          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">{{ language.progreso }}%</div>
         </div>
       </div>
       <div class="col-2 icono-ed-del" > <!-- *ngIf="loginStatus" -->
-        <i class="bi bi-pencil" title="Edit"></i>
-        <i class="bi bi-trash" title="Delete"></i>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-editar-idioma" (click)="openEditLanguageModal(i)">
+          <i class="bi bi-pencil" title="Editar"></i>
+        </button>
+        <button type="button" class="ed-del-add-btn" data-bs-toggle="modal" data-bs-target="#modal-eliminar-idioma" (click)="openDeleteLanguageModal(i)">
+          <i class="bi bi-trash" title="Borrar"></i>
+        </button>
       </div>
     </div>
 
   </div>
 </section>
+
+<!-- Modal Add/Edit -->
+<div class="modal fade" id="modal-editar-idioma" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-editar-idioma" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-editar-idioma"> {{tituloModal}} </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <form [formGroup]="formLanguages">
+
+          <!-- input nombreHabilidad -->
+          <div class="mb-3">
+            <label for="nombre-lang" class="form-label">Idioma</label>
+            <input type="text" formControlName="nombreHabilidad" class="form-control" id="nombre-lang" size="45" [value]="NombreIdioma?.value"
+              [ngClass]="{ 'is-invalid': !notAnEmptyField('nombreHabilidad') || (notAnEmptyField('nombreHabilidad') && NombreIdioma?.errors), 
+                           'is-valid': notAnEmptyField('nombreHabilidad') && !NombreIdioma?.errors }"
+            >
+            <div>
+              <p *ngIf="!notAnEmptyField('nombreHabilidad')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="notAnEmptyField('nombreHabilidad') && NombreIdioma?.errors?.['maxlength']" class="text-danger">
+                El campo no puede tener más de 45 caracteres!
+              </p>
+            </div>
+          </div>
+
+          <!-- input progreso -->
+          <div class="mb-3">
+            <label for="progreso-lang" class="form-label">Progreso</label>
+            <input type="number" formControlName="progreso" class="form-control" id="progreso-lang" size="45" [value]="ProgresoIdioma?.value"
+              [ngClass]="{ 'is-invalid': ProgresoIdioma?.errors, 
+                           'is-valid': !ProgresoIdioma?.errors }"
+            >
+            <div>
+              <p *ngIf="ProgresoIdioma?.hasError('required')" class="text-danger">
+                El campo no puede estar vacío!
+              </p>
+              <p *ngIf="!ProgresoIdioma?.hasError('required') && ProgresoIdioma?.errors?.['max']" class="text-danger">
+                El progreso no puede ser mayor que 100!
+              </p>
+              <p *ngIf="!ProgresoIdioma?.hasError('required') && ProgresoIdioma?.errors?.['min']" class="text-danger">
+                El progreso no puede ser negativo!
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-warning" id="btn-save-changes-lang" 
+              [disabled]="!enableSaveLanguageChangesButton() && responseStatusIdioma <= 0" 
+              (click)="saveChangesLanguage()"
+            >
+              Guardar Cambios
+            </button>
+            <button type="submit" class="btn btn-warning" id="btn-save-lang" 
+              [disabled]="!enableSaveLanguageChangesButton() && responseStatusIdioma <= 0" 
+              (click)="saveLanguage()"
+            >
+              Guardar
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer" *ngIf="responseStatusIdioma > 0">
+        <p class="text-success"> Datos guardados. </p>
+      </div>
+      <div class="modal-footer" *ngIf="responseStatusIdioma < 0">
+        <p class="text-danger"> No se pudieron guardar los datos. </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="modal-eliminar-idioma" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="titulo-modal-eliminar-idioma" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titulo-modal-eliminar-idioma">Eliminar Idioma</h1>
+      </div>
+
+      <div class="modal-body">
+        <p id="ask-delete-lang" name="ask-delete-lang" [ngClass]="{ 'show-item': responseStatusIdioma == 0, 'hide-item': responseStatusIdioma != 0 }">
+          ¿Está seguro de eliminar el Idioma?
+        </p>
+        <p id="delete-lang-success" class="text-success" [ngClass]="{ 'show-item': responseStatusIdioma > 0, 'hide-item': responseStatusIdioma <= 0 }">
+          Idioma eliminado
+        </p>
+        <p id="delete-lang-error" class="text-danger" [ngClass]="{ 'show-item': responseStatusIdioma < 0, 'hide-item': responseStatusIdioma >= 0 }">
+          No se pudo eliminar el idioma
+        </p>
+      </div>
+
+      <div class="modal-footer" id="confirm-buttons">
+        <button type="button" class="btn btn-success" id="btn-si-delete-lang" (click)="deleteLanguage()" [ngClass]="{ 'show-item': responseStatusIdioma == 0, 'hide-item': responseStatusIdioma != 0 }">
+          Sí
+        </button>
+        <button type="button" class="btn btn-danger" id="btn-no-delete-lang" data-bs-dismiss="modal" [ngClass]="{ 'show-item': responseStatusIdioma == 0, 'hide-item': responseStatusIdioma != 0 }">
+          No
+        </button>
+        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" id="close-delete-lang-btn" [ngClass]="{ 'show-item': responseStatusIdioma != 0, 'hide-item': responseStatusIdioma == 0 }" (click)="closeModal()">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
